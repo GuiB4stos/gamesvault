@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Vault - O Mercado de Jogos Digitais</title>
+    <style>
+        /* Variáveis de estilo */
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --primary: #5c66f6; /* Roxo Gamer */
+            --secondary: #10b981; /* Verde Sucesso */
+            --accent: rgba(30, 41, 59, 0.9); /* Fundo dos cards levemente transparente */
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Imagem de Fundo Desfocada */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background-image: url('Captura de tela 2026-10-01 192819.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(12px);
+            z-index: -1;
+            opacity: 0.25; /* Escurece a imagem para manter o contraste do texto */
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(15, 23, 42, 0.85);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn:hover { background-color: #7c3aed; transform: translateY(-2px); }
+        .btn-large { padding: 1rem 2rem; font-size: 1.1rem; width: 100%; max-width: 300px; display: inline-block; }
+
+        /* Seções Gerais */
+        section { padding: 5rem 5%; text-align: center; }
+        
+        /* Hero Section */
+        #hero {
+            padding: 8rem 5% 6rem;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.8));
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .subheadline {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Grid Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            background: var(--accent);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+            backdrop-filter: blur(5px);
+        }
+
+        .card h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
+        .card p { color: #e2e8f0; font-size: 0.95rem; }
+
+        /* Prova Social Fictícia */
+        #depoimentos .card { text-align: center; font-style: italic; position: relative; }
+        .author { margin-top: 1rem; font-weight: bold; color: var(--primary); font-style: normal; }
+
+        /* Formulário */
+        #captura { 
+            background-color: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid var(--border);
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        input:focus, select:focus { border-color: var(--primary); }
+
+        .counter {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Feedback de Sucesso */
+        #success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid var(--border);
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Games Vault</a>
+        <a href="#captura" class="btn">Entrar na Lista</a>
+    </header>
+
+    <section id="hero">
+        <h1>Seus jogos digitais parados valem dinheiro.</h1>
+        <p class="subheadline">A primeira plataforma de transferência e revenda de licenças digitais. Jogue, zere e recupere seu investimento de forma legal e segura.</p>
+        <a href="#captura" class="btn btn-large">Quero Acesso Antecipado</a>
+    </section>
+
+    <section id="problemas">
+        <h2>Por que isso existe?</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🔒 Biblioteca Travada</h3>
+                <p>Você gasta R$300 em um lançamento digital, termina a campanha em uma semana e o jogo fica pegando poeira virtual para sempre.</p>
+            </div>
+            <div class="card">
+                <h3>💸 Dinheiro Perdido</h3>
+                <p>Diferente da mídia física, você não tem a opção de repassar o jogo para um amigo ou vendê-lo para abater o custo do seu próximo título.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucao">
+        <h2>A Solução Games Vault</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Transferência de Licença</h3>
+                <p>Nossa tecnologia valida sua propriedade e transfere a licença para o comprador, garantindo que tudo ocorra dentro das regras.</p>
+            </div>
+            <div class="card">
+                <h3>Mercado Seguro</h3>
+                <p>Compre e venda de outros jogadores com garantia de recebimento e proteção contra fraudes. Tudo automatizado.</p>
+            </div>
+            <div class="card">
+                <h3>Saque Descomplicado</h3>
+                <p>Vendeu? O dinheiro cai na sua carteira virtual, pronto para ser sacado ou usado na compra de outros jogos na plataforma.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos">
+        <h2>O que os jogadores estão dizendo</h2>
+        <!-- NOTA: Depoimentos ilustrativos para MVP / Validação -->
+        <div class="grid">
+            <div class="card">
+                <p>"Finalmente! Tenho uns 15 jogos na conta que eu nunca mais vou abrir. Poder vender isso seria um sonho."</p>
+                <div class="author">- Gabriel "Fallen"</div>
+            </div>
+            <div class="card">
+                <p>"Eu só comprava mídia física justamente por causa da revenda e jogava apenas no digital em jogos competitivos. Se o GamesVault funcionar, migro tudo pro digital na hora."</p>
+                <div class="author">- Alexandre "Gaules"</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="captura">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Garanta seu convite VIP</h2>
+            
+            <form id="leadForm">
+                <div class="form-group">
+                    <label for="nome">Como você se chama?</label>
+                    <input type="text" id="nome" required placeholder="Seu nome ou Nickname">
+                </div>
+                <div class="form-group">
+                    <label for="email">Seu melhor e-mail</label>
+                    <input type="email" id="email" required placeholder="email@exemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="plataforma">Onde você joga mais?</label>
+                    <select id="plataforma" required>
+                        <option value="" disabled selected>Selecione sua plataforma principal</option>
+                        <option value="PC">PC (Steam/Epic)</option>
+                        <option value="PlayStation">PlayStation</option>
+                        <option value="Xbox">Xbox</option>
+                        <option value="Nintendo">Nintendo Switch</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-large" style="width: 100%; margin-top: 1rem;">Quero Entrar na Lista de Espera</button>
+            </form>
+
+            <div id="success-message">
+                <h3>🎉 Obrigado! Você está na lista VIP.</h3>
+                <p>Fique de olho no seu e-mail. Vamos liberar os primeiros acessos muito em breve!</p>
+            </div>
+
+            <div class="counter">
+                <div class="pulse"></div>
+                <span id="contador">428 pessoas já demonstraram interesse</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Games Vault © 2026. Todos os direitos reservados. Este é um teste de conceito (MVP).</p>
+    </footer>
+
+    <script>
+        // Lógica de simulação do front-end
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            // Captura dos dados
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const plataforma = document.getElementById('plataforma').value;
+
+            const leadData = {
+                nome: nome,
+                email: email,
+                plataforma: plataforma,
+                dataCaptura: new Date().toISOString()
+            };
+
+            // Simulação local: salvando no console e localStorage
+            console.log('Novo Lead Capturado:', leadData);
+            
+            let leads = JSON.parse(localStorage.getItem('gamesvault_leads')) || [];
+            leads.push(leadData);
+            localStorage.setItem('gamesvault_leads', JSON.stringify(leads));
+
+            // Atualização visual do contador e da UI
+            document.getElementById('leadForm').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            let numAtual = parseInt(document.getElementById('contador').innerText.split(' ')[0]);
+            document.getElementById('contador').innerText = `${numAtual + 1} pessoas já demonstraram interesse`;
+        });
+    </script>
+</body>
+</html>
